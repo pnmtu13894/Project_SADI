@@ -6,21 +6,24 @@ import java.util.HashMap;
  * Created by minhtu on 4/30/17.
  */
 
-public class Customer {
+public class User {
 
+    private String userID;
     private String mName;
     private String mEmail;
+    private int mRole;
     private HashMap<String,Object> dateJoined;
     private boolean hasLoggedInWithPassword;
 
-    public Customer() {
+    public User() {
     }
 
-    public Customer(String name, String email, HashMap<String, Object> dateJoined, boolean hasLoggedInWithPassword) {
-        mName = name;
-        mEmail = email;
+    public User(String name, String email, HashMap<String, Object> dateJoined, boolean hasLoggedInWithPassword, int role) {
+        this.mName = name;
+        this.mEmail = email;
         this.dateJoined = dateJoined;
         this.hasLoggedInWithPassword = hasLoggedInWithPassword;
+        this.mRole = role;
     }
 
     public String getName() {
@@ -37,5 +40,21 @@ public class Customer {
 
     public boolean isHasLoggedInWithPassword() {
         return hasLoggedInWithPassword;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public int getRole() {
+        return mRole;
+    }
+
+    public void setRole(int role) {
+        mRole = role;
     }
 }

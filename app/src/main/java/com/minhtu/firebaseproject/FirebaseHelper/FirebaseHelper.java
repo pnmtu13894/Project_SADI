@@ -10,8 +10,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.minhtu.firebaseproject.Adapter.ProductAdapter;
+import com.minhtu.firebaseproject.Adapter.CustomerAdapter;
+import com.minhtu.firebaseproject.Adapter.ManagerAdapter;
 import com.minhtu.firebaseproject.Entities.Shoes;
+import com.minhtu.firebaseproject.Entities.User;
 
 import java.util.ArrayList;
 
@@ -28,8 +30,16 @@ public class FirebaseHelper {
     private DatabaseReference db;
     private ArrayList<Shoes> shoesList = new ArrayList<>();
 
-    private ProductAdapter adapter;
+    private ManagerAdapter managerAdapter;
+    private CustomerAdapter customerAdapter;
 
+
+    public FirebaseHelper(Context c, String DB_URL) {
+        this.c = c;
+        this.DB_URL = DB_URL;
+
+        db = FirebaseDatabase.getInstance().getReferenceFromUrl(DB_URL);
+    }
 
     public FirebaseHelper(Context c, String DB_URL, RecyclerView rv) {
         this.c = c;
@@ -41,7 +51,7 @@ public class FirebaseHelper {
 
     }
 
-    public void saveOnline(String name, String url, float price, String description, String brand){
+    public void saveShoes(String name, String url, float price, String description, String brand){
 
         String shoesID = db.push().getKey();
 
@@ -58,11 +68,29 @@ public class FirebaseHelper {
         db.child("shoes").child(shoesID).setValue(shoesList);
     }
 
-    public void showData(){
+    public void saveUsers(String userID, User user){
+        db.child("users").child(userID).setValue(user);
+    }
+
+    public void showManagerData(){
         db.child("shoes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
+                updateManagerData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void showCustomerData(){
+        db.child("shoes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                updateCustomerData(dataSnapshot);
             }
 
             @Override
@@ -77,12 +105,12 @@ public class FirebaseHelper {
         db.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                showData(dataSnapshot);
+//                updateManagerData(dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                showData(dataSnapshot);
+                updateManagerData(dataSnapshot);
             }
 
             @Override
@@ -102,7 +130,7 @@ public class FirebaseHelper {
         });
     }
 
-    private void showData(DataSnapshot dataSnapshot){
+    private void updateManagerData(DataSnapshot dataSnapshot){
         shoesList.clear();
 
         for(DataSnapshot ds : dataSnapshot.getChildren()){
@@ -111,11 +139,28 @@ public class FirebaseHelper {
         }
 
         if(shoesList.size() > 0){
-            adapter = new ProductAdapter(c, shoesList);
-            rv.setAdapter(adapter);
+            managerAdapter = new ManagerAdapter(c, shoesList);
+            rv.setAdapter(managerAdapter);
         } else{
             Toast.makeText(c, "No data to show", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateCustomerData(DataSnapshot dataSnapshot){
+        shoesList.clear();
+
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            Shoes shoes = ds.getValue(Shoes.class);
+            shoesList.add(shoes);
+        }
+
+        if(shoesList.size() > 0){
+            customerAdapter = new CustomerAdapter(c, shoesList);
+            rv.setAdapter(customerAdapter);
+        } else{
+            Toast.makeText(c, "No data to show", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

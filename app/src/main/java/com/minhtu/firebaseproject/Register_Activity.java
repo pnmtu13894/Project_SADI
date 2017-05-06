@@ -1,6 +1,7 @@
 package com.minhtu.firebaseproject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
-import com.minhtu.firebaseproject.Entities.Customer;
+import com.minhtu.firebaseproject.Entities.User;
+import com.minhtu.firebaseproject.FirebaseHelper.FirebaseHelper;
 import com.minhtu.firebaseproject.Utils.Utils;
 
 import java.math.BigInteger;
@@ -33,6 +35,8 @@ public class Register_Activity extends AppCompatActivity {
 
     private Button registerButton;
     private Button mSigninButton;
+
+    private FirebaseHelper firebaseHelper;
 
     private ProgressDialog mProgressDialog;
 
@@ -53,7 +57,7 @@ public class Register_Activity extends AppCompatActivity {
         mSigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startActivity(new Intent(Register_Activity.this, Login.class));
             }
         });
 
@@ -112,18 +116,19 @@ public class Register_Activity extends AppCompatActivity {
                                 //Create key for user
 //                                String customerID = reference.push().getKey();
 
+                                firebaseHelper = new FirebaseHelper(Register_Activity.this, Utils.FIRE_BASE_URL);
 
                                 HashMap<String,Object> timeJoined = new HashMap<String, Object>();
                                 timeJoined.put("dateJoined", ServerValue.TIMESTAMP);
 
-                                Customer customer = new Customer(userName, userEmail, timeJoined, false);
+                                User user = new User(userName, userEmail, timeJoined, false, 1);
 
 //                                reference.child("email").setValue(userEmail);
 //                                reference.child("name").setValue(userName);
 //                                reference.child("hasLoggedInWithPassword").setValue(false);
 //                                reference.child("dateJoined").setValue(timeJoined);
 
-                                reference.child("users").push().setValue(customer);
+                                firebaseHelper.saveUsers(mAuth.getCurrentUser().getUid() ,user);
 
                                 Toast.makeText(Register_Activity.this, "Please check your email", Toast.LENGTH_LONG).show();
                                 mProgressDialog.dismiss();

@@ -98,7 +98,7 @@ public class Update_Shoes_Activity extends AppCompatActivity {
 
 
     private void backToCustomerActivity(){
-        startActivity(new Intent(Update_Shoes_Activity.this, Customer_Activity.class));
+        startActivity(new Intent(Update_Shoes_Activity.this, Manager_Activity.class));
     }
 
 

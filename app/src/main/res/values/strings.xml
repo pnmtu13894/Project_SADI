@@ -1,14 +1,16 @@
 <resources>
-    <string name="app_name">FireBaseProject</string>
+    <string name="app_name">Shoes Shop</string>
     <string name="auth_failed">Wrong username or password! Please check and sign in again.</string>
     <string name="loading">Processing</string>
     <string name="register_progress">Attempt to register</string>
     <string name="signin_progress">Attempt to Log in</string>
-    <string name="title_activity_manager_">Manager_Activity</string>
-    <string name="title_activity_customer_">Customer_Activity</string>
+    <string name="title_activity_manager_">Manager Activity</string>
+    <string name="title_activity_customer_">Customer Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="customer_view_latest">Latest</string>
+    <string name="customer_view_trending">Trending</string>
 </resources>

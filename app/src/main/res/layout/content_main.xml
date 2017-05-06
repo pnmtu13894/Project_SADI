@@ -8,13 +8,47 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:layout_weight="0"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:context="com.minhtu.firebaseproject.Customer_Activity"
-                tools:showIn="@layout/activity_customer_">
+                tools:context="com.minhtu.firebaseproject.Manager_Activity"
+                tools:showIn="@layout/activity_manager_">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecylcerID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="450dp">
     </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|end"
+        android:layout_below="@id/mRecylcerID"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/activity_manager_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="Orders"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/activity_manager_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="Report"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/activity_signout"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sign out"
+            />
+    </LinearLayout>
+
+
 </RelativeLayout>

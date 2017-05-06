@@ -19,13 +19,13 @@ import java.util.ArrayList;
  * Created by minhtu on 5/1/17.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<Holder>{
+public class ManagerAdapter extends RecyclerView.Adapter<Holder>{
 
     private Context c;
     private ArrayList<Shoes> shoesList;
 
 
-    public ProductAdapter(Context c, ArrayList<Shoes> shoesList) {
+    public ManagerAdapter(Context c, ArrayList<Shoes> shoesList) {
         this.c = c;
         this.shoesList = shoesList;
     }

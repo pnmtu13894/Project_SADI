@@ -23,11 +23,15 @@
         <activity android:name=".Detail_Activity">
         </activity>
         <activity
-            android:name=".Customer_Activity"
-            android:label="@string/title_activity_customer_"
+            android:name=".Manager_Activity"
+            android:label="@string/title_activity_manager_"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".Update_Shoes_Activity">
+        </activity>
+        <activity android:name=".Customer_Activity">
+        </activity>
+        <activity android:name=".Report_Activity">
         </activity>
     </application>
 

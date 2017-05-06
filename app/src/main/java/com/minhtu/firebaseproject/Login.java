@@ -17,6 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.minhtu.firebaseproject.Utils.Utils;
 
 public class Login extends AppCompatActivity {
 
@@ -54,7 +60,7 @@ public class Login extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if(user != null){
-                    startActivity(new Intent(Login.this, Customer_Activity.class));
+                    startActivity(new Intent(Login.this, Manager_Activity.class));
                     finish();
                 }
             }
@@ -113,14 +119,35 @@ public class Login extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                mProgressDialog.dismiss();
                 if(!task.isSuccessful()){
                     Log.w(TAG, "signInWithEmail: failed", task.getException());
                     Toast.makeText(Login.this, R.string.auth_failed, Toast.LENGTH_LONG).show();
                 } else {
-                    Intent intent = new Intent(Login.this, Customer_Activity.class);
-                    startActivity(intent);
-                    finish();
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl(Utils.FIRE_BASE_URL).child("users").child(user.getUid());
+
+                    mDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            String role = dataSnapshot.child("role").getValue().toString();
+                            if(role.equals("1")){
+                                mProgressDialog.dismiss();
+                                startActivity(new Intent(Login.this, Customer_Activity.class));
+                            } else if(role.equals("2")){
+                                mProgressDialog.dismiss();
+                                startActivity(new Intent(Login.this, Manager_Activity.class));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                 }
             }
         });
